@@ -2,18 +2,26 @@ body {
 background-color: rgb(110, 110, 92);
 }
 table, td{
- border: 1px solid black;
+background-color: rgb(255, 255, 255);
+ border: 5px solid black;
 }
 img.one{
-height: 50%;
-width: 50%;
+padding: 1px;
+border: 5px solid black;
+height: 25%;
+width: 25%;
 }
 p {
 font-family: Times New Roman;
 color: #000000;
 }
 div {
+position: relative;
+top: 100%;
+transfrom: translateY(-50%);
+width: 50%;
 font-family: Times New Roman;
 color: #000000;
+background-color: rgb(255, 255, 255);
 
 }
