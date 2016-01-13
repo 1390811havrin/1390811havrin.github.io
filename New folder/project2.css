@@ -1,0 +1,19 @@
+body {
+background-color: rgb(110, 110, 92);
+}
+table, td{
+ border: 1px solid black;
+}
+img.one{
+height: 50%;
+width: 50%;
+}
+p {
+font-family: Times New Roman;
+color: #000000;
+}
+div {
+font-family: Times New Roman;
+color: #000000;
+
+}

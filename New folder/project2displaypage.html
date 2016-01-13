@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, td {
+    border: 1px solid black;
+}
+</style>
+</head>
+<body>
+
+<p>Click the Button to view monthly information where the most recent month is the one on top</p>
+
+<table id="infoTable">
+<tr>
+<td>Month</td>
+<td>Monthly Payment</td>
+<td>amount paid in principal</td>
+<td>amount paid in interest</td>
+<td>amount remaining in principal</td>
+</tr>
+</table>
+<button onclick="monthFunction()">NextMonth?</button>
+<button onclick="aNumberofMonths()">A range of months?</button>
+<script>
+var numMonthsviewedatOnce = prompt("How many months do you want to view at once?");
+var annualInterestRate =prompt("What is your annual interest rate?")/12 ;
+var principalAmount = prompt("How much is your principal loan?");
+var numMonths = prompt("How long will you owe it 15, 20, or 30 years?") * 12;
+var iterator = 0;
+var monthlyPayment = ((annualInterestRate)/(1 - Math.pow(1 + annualInterestRate, (-1 * numMonths)))) * principalAmount;
+var tempPrinc = principalAmount; 
+var i;
+function monthFunction() {
+    var table = document.getElementById("infoTable");
+    var header = table.createTHead();
+    var row = header.insertRow(0);
+    var cell = row.insertCell(0);
+	 var row2 = header.insertRow(0);
+    var cell2 = row.insertCell(0);
+	var row3 = header.insertRow(0);
+    var cell3 = row.insertCell(0);
+	var row4 = header.insertRow(0);
+    var cell4 = row.insertCell(0);
+	var row5 = header.insertRow(0);
+    var cell5 = row.insertCell(0);
+    cell.innerHTML = principalAmount -(iterator *(monthlyPayment - (annualInterestRate * tempPrinc))) ;
+	cell2.innerHTML = annualInterestRate * tempPrinc;
+	cell3.innerHTML = monthlyPayment - (annualInterestRate * tempPrinc) ;
+	cell4.innerHTML = monthlyPayment.toPrecision([5]);
+	cell5.innerHTML = iterator;
+	tempPrinc = tempPrinc - (monthlyPayment - (annualInterestRate * tempPrinc)  * iterator);
+	iterator ++;
+}
+function aNumberofMonths(){
+if(numMonthsviewedatOnce <= 360 && numMonthsviewedatOnce >= 1)
+{
+for( i = 0; i < numMonthsviewedatOnce; i++)
+{
+monthFunction();
+}
+}
+else
+{
+console.log("Nothing ventured nothing gained");
+}
+
+}
+</script>
+</body>
+</html>
