@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+		<link rel="stylesheet" href="css/styles.css">
+		
+		<title>This is an Express App</title>
+	</head>
+
+	<body>
+
+		<div class="container">
+			<h2 id="allStudentsDiv">
+				All Students 
+				
+				<!-- this content will be clickable -->
+				<small>click here for honor roll</small>
+			</h2>
+			
+			<!-- this is an empty list of students (it will get filled in inside the ready())-->
+			<ul id="allStudentsList">
+			</ul>
+			
+		</div>
+
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+		<script>
+			
+			//when the document is ready
+			$(document).ready(function() {
+				
+				//once the page is loaded make a request to get all of the 
+				//students from our server
+                $.ajax({
+                    url: "http://localhost:3000/students",
+                    type: "GET",
+                    success: function(data){
+					
+                        //'data' is some json data that holds all of the students
+                        //it has been parsed and is available to use like a normal 
+                        //javascript object
+
+                        //get the student unordered list
+                        var allStudentsList = $("#allStudentsList");
+
+                        //go through each of the student objects
+                        for(var i = 0;i < data.length;i++) {
+
+                            //create a student list item for each student
+                            var studentListItem = $("<li>" + data[i].name + "</li>");
+                            
+                            //give each li an id (the same id as the student)
+                            studentListItem.attr("id", data[i].id);
+                            
+                            //add a new student li to the ul
+                            allStudentsList.append(studentListItem);
+                        }
+
+                        console.log(data);
+                    },
+                    error: function() {
+                        console.log("ERROR: requesting all of the students");
+                    } 
+                });
+                
+				
+				//register a click handler on the one and only small tag
+				$("small").on("click", function(){
+					
+                    $.ajax({
+                        url: "http://localhost:3000/honorroll",
+                        type: "GET",
+                        success: function(data){
+
+                            //'data' is some json data that holds the honor roll students
+                            //it has been parsed and is available to use like a normal 
+                            //javascript object
+
+                            //get all the student list items
+                            var allStudentsList = $("li");
+
+                            //for each li (filled with all of the students)
+                            allStudentsList.each(function(){
+
+                                //check each of the honor roll students returned
+                                for(var j = 0;j < data.length;j++) {
+
+                                    //see if the id in the li is the same as the
+                                    //student id returned
+                                    if($(this).attr("id") === data[j].toString()) {
+
+                                        //this is an honor roll student
+                                        $(this).append(" (Honor Roll) ");
+                                        $(this).addClass("honorRoll");
+                                    }
+                                }
+                            });
+
+                            console.log(data);
+                        },
+                        error: function() {
+                            console.log("ERROR: requesting all of the honor roll students");
+                        }
+                    });
+                });
+			});
+			
+		</script>
+	</body>
+</html>
