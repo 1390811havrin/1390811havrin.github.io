@@ -1,0 +1,1 @@
+{ "records":[ {"Day":"Monday","WorkSched":"9am - 5pm"}, {"Day":"Tuesday","WorkSched":"9am - 5pm"}, {"Day":"Wednesday","WorkSched":"9am - 5pm"}, {"Day":"Thursday","WorkSched":"9am - 5pm"}, {"Day":"Friday","WorkSched":"9am - 5pm"}, {"Day":"Saturday","WorkSched":"9am - 5pm"}, {"Day":"Sunday","WorkSched":"rest"} ] }
