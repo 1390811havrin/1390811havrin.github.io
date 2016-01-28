@@ -1,0 +1,274 @@
+<!doctype html >
+<html ng-app="myApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	<style>
+	
+	#notePad{
+	background-image:url("http://www.clipartbest.com/cliparts/yTo/4B9/yTo4B9MLc.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: #ffffff;
+	border-style: groove;
+	border-width: 15px;
+	}
+	#notePadCb
+	{
+	float: left;
+	width:33%;
+
+	}
+	
+	#example-notes
+	{
+	float: left;
+	width:33%;
+
+	}
+	
+	
+	#notePadDi{
+	float: left;
+	width:33%;
+
+	}
+	
+	body{
+	background-image:url("http://images7.alphacoders.com/418/418351.jpg");
+	}
+	
+	#dCont{
+	
+	}
+	#dL{
+		float: left;
+		width:33%;
+	}
+	#dC{
+		float: left;
+		width:33%;
+	}
+	#dR{
+	align-self: right;
+		   text-align: right;
+		float:right;
+		width:33%;
+	}
+	
+	table, th , td  {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd)	{
+  background-color: #E6F5FA;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+	</style>
+  </head>
+
+  <body>
+  <div class="container-fluid">
+  <div id="dCont" class="row">
+
+	<div id="dL" ng-controller="MyControllerb" class="col-sm-3">
+	<table>
+  <tr ng-repeat="x in names">
+    <td>{{ x.Day }}</td>
+    <td>{{ x.WorkOut }}</td>
+	<td>{{ x.WorkOut2 }}</td>
+  </tr>
+</table>
+	</div>
+		<div id="dC" ng-controller="MyControllera" class="col-sm-3">
+        <u>Date in MM/dd/yyyy</u><br /><span>{{CurrentDate | date:'MM/dd/yyyy'}}</span>
+        <br />
+        <br />
+    </div>
+
+		<div id="dR" ng-controller="MyControllerc" class="col-sm-3">
+	<table>
+  <tr ng-repeat="x in names">
+    <td>{{ x.Day }}</td>
+    <td>{{ x.WorkSched }}</td>
+  </tr>
+</table>
+	</div>
+	</div>
+	    <!-- CHAT MARKUP 
+	  <div ng-controller="MyControllerf">
+ 
+    <!-- CHAT MARKUP 
+    <div class="Hw Div">
+      <header>Home Work</header>
+
+      <div class="Home Work ToolBar">
+        <label for="dateInput">Date:</label>
+        <input ng-model="date2" type="text" id="dateInput" placeholder="">
+      </div>
+
+      <ul id="example-notes" class="note-note-note">
+        <li ng-repeat="hwe in notes">
+          <strong class="Home Work by date">
+		  {{ hwe.from }}</strong>
+		  {{ hwe.body }}
+          
+        </li>
+      </ul>
+
+      <footer>
+        <input ng-model="hwe" ng-keydown="addnote2($event)" type="text" id="noteInput"  placeholder="Enter a Note">
+      </footer>
+	<div ng-repeat="note in notes" >
+    <button ng-click="notes2.$remove(note2)">x</button>
+
+  </div>
+
+    </div>
+	</div>
+	-->
+  <div  ng-controller="MyController">
+ 
+    <!-- CHAT MARKUP -->
+    <div class="row" id="notePad" class="Note Div">
+      <header>Notes</header>
+	  
+
+
+      <div id="notePadDi" class="Note ToolBar" class="col-sm-3">
+        <label for="dateInput">Date:</label>
+        <input ng-model="date" type="text" id="dateInput" placeholder="Date">
+		        <input ng-model="nte" ng-keydown="addnote($event)" type="text" id="noteInput"  placeholder="Enter a Note">
+      </div>
+
+      <ul id="example-notes" class="note-note-note" class="col-sm-3">
+        <li ng-repeat="nte in notes">
+          <strong class="Notes by date">
+		  {{ nte.from }}</strong>
+		  {{ nte.body }}
+          
+        </li>
+      </ul>
+<div id="notePadCb" ng-repeat="note in notes" class="col-sm-3" >
+    <button ng-click="notes.$remove(note)">x</button>
+  </div>
+      <footer>
+
+      </footer>
+	
+
+    </div>
+	</div>
+
+    <script>
+	
+	
+      var myApp = angular.module("myApp", ["firebase"]);
+	  
+      myApp.controller("MyController", ["$scope", "$firebaseArray",
+        function($scope, $firebaseArray) {
+          //CREATE A FIREBASE REFERENCE
+          var ref = new Firebase("https://webappproject2.firebaseio.com/");
+		  
+		  
+// WHAT TO DO
+//1. LAY OUT SOME FAT DIVS AND POSITION THEM TO HOLD THE ITEMS NECESSARY <
+//1A. OR WORK THROUGH HOW THIS FIREBASEANGULAR SHIT WORKS THEN DO 1. <
+//2.DO WORKOUT <
+//3.DO WORK SCHEDULE <
+//4.DO HOMEWORK SCHEDULE
+//5.ALLOW APPENDING OF GENERAL NOTES<
+//6.TACKLE DATE AND TIME<
+//9.TACKLE PACKING RECOMMENDATION
+//10.POLISH
+          // GET notes AS AN ARRAY
+          $scope.notes = $firebaseArray(ref.child("notes"));
+
+          //ADD note METHOD
+          $scope.addnote = function(e) {
+
+            //LISTEN FOR RETURN KEY
+            if (e.keyCode === 13 && $scope.nte) {
+              //ALLOW CUSTOM OR ANONYMOUS USER dateS
+              var date = $scope.date || "non-dated";
+
+              //ADD TO FIREBASE
+              $scope.notes.$add({
+                from: date,
+                body: $scope.nte
+              });
+
+              //RESET note
+              $scope.nte = "";
+            }
+          }
+        }
+      ]);
+	          
+        myApp.controller('MyControllera', function ($scope) {
+            $scope.CurrentDate = new Date();
+        });
+
+myApp.controller('MyControllerb', function($scope, $http) {
+    $http.get("https://raw.githubusercontent.com/1390811havrin/1390811havrin.github.io/master/workoutsched.php")
+    .then(function (response) {$scope.names = response.data.records;});
+});
+myApp.controller('MyControllerc', function($scope, $http) {
+    $http.get("https://raw.githubusercontent.com/1390811havrin/1390811havrin.github.io/master/workSched.php")
+    .then(function (response) {$scope.names = response.data.records;});
+});
+/*
+      myApp.controller("MyControllerf", ["$scope", "$firebaseArray",
+        function($scope, $firebaseArray) {
+          //CREATE A FIREBASE REFERENCE
+          var ref2 = new Firebase("https://webappproject2.firebaseio.com/");
+		  
+		  
+// WHAT TO DO
+//1. LAY OUT SOME FAT DIVS AND POSITION THEM TO HOLD THE ITEMS NECESSARY <
+//1A. OR WORK THROUGH HOW THIS FIREBASEANGULAR SHIT WORKS THEN DO 1. <
+//2.DO WORKOUT <
+//3.DO WORK SCHEDULE <
+//4.DO HOMEWORK SCHEDULE
+//5.ALLOW APPENDING OF GENERAL NOTES<
+//6.TACKLE DATE AND TIME<
+//9.TACKLE PACKING RECOMMENDATION
+//10.POLISH
+          // GET notes AS AN ARRAY
+          $scope.notes2 = $firebaseArray(ref2.child("notes2"));
+
+          //ADD note METHOD
+          $scope.addnote2 = function(e) {
+
+            //LISTEN FOR RETURN KEY
+            if (e.keyCode === 13 && $scope.hwe) {
+              //ALLOW CUSTOM OR ANONYMOUS USER dateS
+              var date2 = $scope.date2 || "non-dated";
+
+              //ADD TO FIREBASE
+              $scope.notes2.$add({
+                from: date2,
+                body: $scope.hwe
+              });
+
+              //RESET note
+              $scope.hwe = "";
+            }
+          }
+        }
+      ]);
+	  */
+    </script>
+	</div>
+  </body>
+</html>
