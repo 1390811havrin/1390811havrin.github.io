@@ -182,8 +182,8 @@ table tr:nth-child(even) {
 		  
 		  
 // WHAT TO DO
-//1. LAY OUT SOME FAT DIVS AND POSITION THEM TO HOLD THE ITEMS NECESSARY <
-//1A. OR WORK THROUGH HOW THIS FIREBASEANGULAR SHIT WORKS THEN DO 1. <
+//1. LAY OUT SOME DIVS AND POSITION THEM TO HOLD THE ITEMS NECESSARY <
+//1A. OR WORK THROUGH HOW THIS FIREBASEANGULAR stuff WORKS THEN DO 1. <
 //2.DO WORKOUT <
 //3.DO WORK SCHEDULE <
 //4.DO HOMEWORK SCHEDULE
@@ -199,7 +199,7 @@ table tr:nth-child(even) {
 
             //LISTEN FOR RETURN KEY
             if (e.keyCode === 13 && $scope.nte) {
-              //ALLOW CUSTOM OR ANONYMOUS USER dateS
+              //ALLOW CUSTOM OR non-dated items
               var date = $scope.date || "non-dated";
 
               //ADD TO FIREBASE
@@ -233,17 +233,6 @@ myApp.controller('MyControllerc', function($scope, $http) {
           //CREATE A FIREBASE REFERENCE
           var ref2 = new Firebase("https://webappproject2.firebaseio.com/");
 		  
-		  
-// WHAT TO DO
-//1. LAY OUT SOME FAT DIVS AND POSITION THEM TO HOLD THE ITEMS NECESSARY <
-//1A. OR WORK THROUGH HOW THIS FIREBASEANGULAR SHIT WORKS THEN DO 1. <
-//2.DO WORKOUT <
-//3.DO WORK SCHEDULE <
-//4.DO HOMEWORK SCHEDULE
-//5.ALLOW APPENDING OF GENERAL NOTES<
-//6.TACKLE DATE AND TIME<
-//9.TACKLE PACKING RECOMMENDATION
-//10.POLISH
           // GET notes AS AN ARRAY
           $scope.notes2 = $firebaseArray(ref2.child("notes2"));
 
